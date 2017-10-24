@@ -17,7 +17,10 @@ LABEL summary="A container used for building and testing container images." \
       io.k8s.display-name="image-build-tools" \
       io.openshift.tags="distgen,make,go-md2man,mtf"
 
-RUN dnf install -y meta-test-family distgen make go-md2man && dnf clean all
+RUN dnf install -y dnf-plugins-core && \
+    dnf copr enable -y phracek/meta-test-family-devel && \
+    dnf install -y --enablerepo=updates-testing make meta-test-family distgen golang-github-cpuguy83-go-md2man && \
+    dnf clean all
 
 RUN mkdir /src
 
